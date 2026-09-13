@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                    docker build \
+                    sudo docker build \
                         -t ${IMAGE_NAME}:${IMAGE_TAG} \
                         -t ${IMAGE_NAME}:latest \
                         .
@@ -27,7 +27,7 @@ pipeline {
 
         stage('Show Docker Images') {
             steps {
-                sh 'docker images ${IMAGE_NAME}'
+                sh 'sudo docker images ${IMAGE_NAME}'
             }
         }
     }

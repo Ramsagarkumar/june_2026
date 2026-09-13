@@ -4,8 +4,8 @@ USER root
 
 # Install Docker CLI if Jenkins needs to run Docker commands
 RUN sudo apt-get update \
-    && sudo apt-get install -y docker.io \
-    && sudo rm -rf /var/lib/apt/lists/*
+    && apt-get install -y docker.io \
+    && rm -rf /var/lib/apt/lists/*
 
 USER jenkins
 
