@@ -1,32 +1,44 @@
 pipeline {
     agent any
+
+    environment {
+        IMAGE_NAME = 'Jenkins_image'
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+    }
+
     stages {
-        stage('STAGE1') {
+
+        stage('Checkout') {
             steps {
-                sh 'ls -lrt'
+                checkout scm
             }
         }
 
-        stage('STAGE2') {
+        stage('Build Docker Image') {
             steps {
                 sh '''
-                    pwd 
-                    sleep 10
-                    ls -lrt
+                    docker build \
+                        -t ${IMAGE_NAME}:${IMAGE_TAG} \
+                        -t ${IMAGE_NAME}:latest \
+                        .
                 '''
             }
         }
 
-        stage('STAGE3') {
+        stage('Show Docker Images') {
             steps {
-                echo "This is Stage3"
+                sh 'docker images ${IMAGE_NAME}'
             }
         }
+    }
 
-        stage('STAGE4') {
-            steps {
-                 sh 'echo THis is STAGE4'
-            }
+    post {
+        success {
+            echo "Docker image built successfully: ${IMAGE_NAME}:${IMAGE_TAG}"
+        }
+
+        failure {
+            echo "Docker image build failed!"
         }
     }
 }
