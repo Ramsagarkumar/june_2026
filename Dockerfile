@@ -3,7 +3,7 @@ FROM jenkins/jenkins:lts
 USER root
 
 # Install Docker CLI if Jenkins needs to run Docker commands
-RUN sudo apt-get update \
+RUN apt-get update \
     && apt-get install -y docker.io \
     && rm -rf /var/lib/apt/lists/*
 
